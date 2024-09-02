@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Embed</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+        }
+        #playButton {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        #playButton::before {
+            content: '►';
+            font-size: 50px;
+            color: #000;
+        }
+        #adContainer {
+            display: none;
+            position: relative;
+        }
+        #adVideo {
+            width: 640px;
+            height: 360px;
+            background-color: #000;
+        }
+        #skipButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div id="playButton"></div>
+
+<div id="adContainer">
+    <video id="adVideo" controls>
+        <source src="your-ad-video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <button id="skipButton">Skip Ad</button>
+</div>
+
+<script>
+    const playButton = document.getElementById('playButton');
+    const adContainer = document.getElementById('adContainer');
+    const adVideo = document.getElementById('adVideo');
+    const skipButton = document.getElementById('skipButton');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectUrl = urlParams.get('goto');
+
+    playButton.addEventListener('click', () => {
+        playButton.style.display = 'none';
+        adContainer.style.display = 'block';
+        adVideo.play();
+        setTimeout(() => {
+            skipButton.style.display = 'inline';
+        }, 3000);
+    });
+
+    skipButton.addEventListener('click', () => {
+        window.location.href = redirectUrl;
+    });
+
+    adVideo.addEventListener('ended', () => {
+        window.location.href = redirectUrl;
+    });
+
+    adVideo.addEventListener('click', () => {
+        window.open(redirectUrl, '_blank');
+    });
+</script>
+
+</body>
+</html>
