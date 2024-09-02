@@ -70,6 +70,7 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     const redirectUrl = urlParams.get('goto');
+    const adClickUrl = "https://your-ad-page.com"; // Replace with the actual ad page URL
 
     playButton.addEventListener('click', () => {
         playButton.style.display = 'none';
@@ -88,8 +89,12 @@
         window.location.href = redirectUrl;
     });
 
+    adVideo.addEventListener('error', () => {
+        window.location.href = redirectUrl;
+    });
+
     adVideo.addEventListener('click', () => {
-        window.open(redirectUrl, '_blank');
+        window.open(adClickUrl, '_blank');
     });
 </script>
 
